@@ -4,6 +4,7 @@ import type { User } from './components/employeeCard/employeeCard.comp';
 import { EmployeeList } from './components/employeeList/employeeList.comp'
 import { useQuery } from '@tanstack/react-query';
 import fetchUsers from './utils/users.api';
+import ConcatUserFilterCallback from './utils/users.utils';
 
 function App() {
   const [employees, setEmployees] = useState<User[]>([]);
@@ -17,7 +18,7 @@ function App() {
   useEffect(() => {
     if (data) {
       const filteredEmployees = filterString.length > 0 ?
-        data.users.filter(user => user.firstName.includes(filterString)) : data.users;
+        data.users.filter(ConcatUserFilterCallback(filterString)) : data.users;
 
       setEmployees(filteredEmployees);
     }
