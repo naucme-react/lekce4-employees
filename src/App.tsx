@@ -43,7 +43,9 @@ function App() {
     return <CenteredDiv>Error: {error instanceof Error ? error.message : 'Unknown error'}</CenteredDiv>;
   }
 
-  return <EmployeeList employees={employees} setFilter={setFilterString} />
+  return <>
+    <EmployeeList employees={employees} setFilter={setFilterString} />
+  </>
 }
 
 export default App
