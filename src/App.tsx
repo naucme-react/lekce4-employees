@@ -8,6 +8,7 @@ import fetchUsers from './utils/users.api';
 import ConcatUserFilterCallback from './utils/users.utils';
 
 import './App.css'
+import useStore from './utils/context/zustandStore';
 
 const CenteredDiv: FunctionComponent<PropsWithChildren<unknown>> = ({ children }) => (
   <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -16,22 +17,21 @@ const CenteredDiv: FunctionComponent<PropsWithChildren<unknown>> = ({ children }
 )
 
 function App() {
-  const [employees, setEmployees] = useState<User[]>([]);
-  const [filterString, setFilterString] = useState<string>("");
-
   const { data, isLoading, error, isError } = useQuery({
     queryKey: ['users'],
     queryFn: fetchUsers
-  })
+  });
+
+  const store = useStore();
 
   useEffect(() => {
     if (data) {
-      const filteredEmployees = filterString.length > 0 ?
-        data.users.filter(ConcatUserFilterCallback(filterString)) : data.users;
+      const filteredEmployees = store.filterString.length > 0 ?
+        data.users.filter(ConcatUserFilterCallback(store.filterString)) : data.users;
 
-      setEmployees(filteredEmployees);
+      store.setUser(filteredEmployees);
     }
-  }, [data, filterString])
+  }, [data, store.filterString])
 
   if (isLoading) {
     return <CenteredDiv>
@@ -44,7 +44,7 @@ function App() {
   }
 
   return <>
-    <EmployeeList employees={employees} setFilter={setFilterString} />
+    <EmployeeList />
   </>
 }
 

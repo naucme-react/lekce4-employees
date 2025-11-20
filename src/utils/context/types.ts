@@ -11,5 +11,8 @@ export type UserAction = {
 };
 
 export type UserState = {
-    user: User | null;
+    user: User[] | null;
+    setUser: (user: User[] | null) => void;
+    filterString: string;
+    setFilterString: (filter: string) => void;
 };
